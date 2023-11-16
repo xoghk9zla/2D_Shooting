@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4856317843752653356}
   m_Layer: 0
   m_Name: Enemy A
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5429909852276770826
 SpriteRenderer:
@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e712d1b7f6b93a34c8ec9a3d6d21cfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 2
+  maxHp: 5
   speed: 4
+  sprHit: {fileID: 4326287474489854147, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
 --- !u!50 &-4538555596779835847
 Rigidbody2D:
   serializedVersion: 4
@@ -157,7 +158,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

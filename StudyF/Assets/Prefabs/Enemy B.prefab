@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1553120168139251831}
   m_Layer: 0
   m_Name: Enemy B
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e712d1b7f6b93a34c8ec9a3d6d21cfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 4
+  maxHp: 5
   speed: 6
+  sprHit: {fileID: -7844560889915226194, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
 --- !u!50 &-4371726860255260654
 Rigidbody2D:
   serializedVersion: 4
@@ -157,7 +158,7 @@ PolygonCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -172,17 +173,20 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.5072006, y: 0.42464548}
-      - {x: 0.15142903, y: 0.4290131}
+    - - {x: 0.46399385, y: 0.3792391}
+      - {x: 0.4581913, y: 0.42493162}
+      - {x: 0.1332367, y: 0.4268287}
       - {x: 0.083468646, y: 0.50506485}
       - {x: -0.098609254, y: 0.5042347}
-      - {x: -0.15434605, y: 0.43425393}
-      - {x: -0.512838, y: 0.43098575}
+      - {x: -0.14070183, y: 0.42505324}
+      - {x: -0.46732026, y: 0.4245222}
+      - {x: -0.4628092, y: 0.37823403}
+      - {x: -0.50552076, y: 0.37737826}
       - {x: -0.49999997, y: 0.2418812}
       - {x: -0.383566, y: 0.12814608}
       - {x: -0.056778826, y: -0.5003657}
-      - {x: 0.06433491, y: -0.49032384}
+      - {x: 0.052964717, y: -0.5039543}
       - {x: 0.38174996, y: 0.13526587}
       - {x: 0.4999915, y: 0.24811023}
-      - {x: 0.50454473, y: 0.3940053}
+      - {x: 0.49999663, y: 0.38033825}
   m_UseDelaunayMesh: 0

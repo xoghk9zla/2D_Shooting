@@ -356,6 +356,7 @@
 "Assets/Scripts/Common/Background.cs"
 "Assets/Scripts/Common/Bullet.cs"
 "Assets/Scripts/Common/Enemy.cs"
+"Assets/Scripts/Common/Form.cs"
 "Assets/Scripts/Common/Player.cs"
 "Assets/Scripts/Manager/GameManager.cs"
 -langversion:9.0

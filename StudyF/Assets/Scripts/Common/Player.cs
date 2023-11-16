@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     [SerializeField] private bool autoBullet = false;
     [SerializeField, Range(0.0f, 3.0f)] private float timerShoot = 0.5f;
     private float timer = 0.0f;
+    [SerializeField] private float bulletDamage = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -105,6 +106,8 @@ public class Player : MonoBehaviour
 
     private void ShootBullet()
     {
-        Instantiate(objBullet, transform.position, Quaternion.identity, layerDynamic);
+        GameObject obj = Instantiate(objBullet, transform.position, Quaternion.identity, layerDynamic);
+        Bullet objSc = obj.GetComponent<Bullet>();
+        objSc.SetDamege(true, bulletDamage);
     }
 }

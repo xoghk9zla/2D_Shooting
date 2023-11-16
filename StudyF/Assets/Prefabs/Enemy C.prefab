@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 118730204942194502}
   m_Layer: 0
   m_Name: Enemy C
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e712d1b7f6b93a34c8ec9a3d6d21cfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
+  maxHp: 5
   speed: 2
+  sprHit: {fileID: 3714015224569861163, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
 --- !u!50 &1624805737354393919
 Rigidbody2D:
   serializedVersion: 4
@@ -157,10 +158,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0056547523, y: 0}
+  m_Offset: {x: -0.002859056, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -171,5 +172,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0930778, y: 1.125}
+  m_Size: {x: 1.0986692, y: 1.125}
   m_EdgeRadius: 0
