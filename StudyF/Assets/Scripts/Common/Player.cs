@@ -26,12 +26,26 @@ public class Player : MonoBehaviour
     private float timer = 0.0f;
     [SerializeField] private float bulletDamage = 0.0f;
 
+    [Header("플레이어 데이터")]
+    [SerializeField] private float maxHp = 3.0f;
+    [SerializeField] private float curHp;
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == GameTag.Enemy.ToString())
+        {
+            Hit(1.0f);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         //maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
         maincam = Camera.main;
         animator = transform.GetComponent<Animator>();
+
+        curHp = maxHp;
     }
 
     // Update is called once per frame
@@ -109,5 +123,18 @@ public class Player : MonoBehaviour
         GameObject obj = Instantiate(objBullet, transform.position, Quaternion.identity, layerDynamic);
         Bullet objSc = obj.GetComponent<Bullet>();
         objSc.SetDamege(true, bulletDamage);
+    }
+
+    public void Hit(float damage)
+    {
+        curHp -= damage;
+        if(curHp <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+
+        }
     }
 }

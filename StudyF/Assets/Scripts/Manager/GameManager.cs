@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance; // 教臂沛
+
     private Camera maincam;
 
     [Header("利扁积己")]
@@ -13,7 +15,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool boolEnemySpawn = false;
     [SerializeField] Vector3 vecSpawnPos;
     [SerializeField] Transform trsSpawnPos;
-    [SerializeField] Transform LayerEnemy;
+    [SerializeField] Transform layerEnemy;
+    [SerializeField] Transform layerDynamic;
+
+    private void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +67,7 @@ public class GameManager : MonoBehaviour
         float xPos = Random.Range(limitPosX._min, limitPosX._max);
         Vector3 instPos = new Vector3(xPos, trsSpawnPos.position.y, 0.0f);
 
-        Instantiate(objEnemy, instPos, Quaternion.identity, LayerEnemy);
+        Instantiate(objEnemy, instPos, Quaternion.identity, layerEnemy);
     }
 
     private (float _min, float _max) GetLimitGameScene()
@@ -61,6 +76,11 @@ public class GameManager : MonoBehaviour
         float maxValue = maincam.ViewportToWorldPoint(new Vector3(0.9f, 0.0f, 0.0f)).x;
 
         return (minValue, maxValue);
+    }
+
+    public Transform GetLayerDynamic()
+    {
+        return layerDynamic;
     }
 
 }

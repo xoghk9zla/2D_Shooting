@@ -102,6 +102,7 @@ MonoBehaviour:
   maxHp: 5
   speed: 6
   sprHit: {fileID: -7844560889915226194, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
+  objExplosion: {fileID: 8177806644972950193, guid: a449abce2d3d3d843bb365552f301b2a, type: 3}
 --- !u!50 &-4371726860255260654
 Rigidbody2D:
   serializedVersion: 4

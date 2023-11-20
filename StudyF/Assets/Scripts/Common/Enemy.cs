@@ -10,7 +10,12 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private Sprite sprHit;
     private Sprite sprDefault;
+
     private SpriteRenderer sr;
+    [SerializeField] private GameObject objExplosion;
+
+    private Transform layerDynamic;
+    private GameManager gameManager;
 
     private void Awake()
     {
@@ -23,7 +28,9 @@ public class Enemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        //layerDynamic = GameObject.Find("LayerDynamic").transform;
+        gameManager = GameManager.Instance;
+        layerDynamic = gameManager.GetLayerDynamic();
     }
 
     // Update is called once per frame
@@ -39,13 +46,20 @@ public class Enemy : MonoBehaviour
     public void Hit(float damage)
     {
         curHp -= damage;
-        if (curHp <= 0 )
+        if (curHp <= 0)
         {
             Destroy(gameObject);
+            Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
         }
         else
         {
             sr.sprite = sprHit;
+            Invoke("SetSpriteDefault", 0.1f);
         }
+    }
+
+    private void SetSpriteDefault()
+    {
+        sr.sprite = sprDefault;
     }
 }

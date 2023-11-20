@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
         {
             Enemy enemySc = collision.GetComponent<Enemy>();
             enemySc.Hit(damage);
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }            
     }
 

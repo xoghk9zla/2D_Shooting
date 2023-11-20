@@ -233,6 +233,8 @@ MonoBehaviour:
   autoBullet: 0
   timerShoot: 3
   bulletDamage: 2
+  maxHp: 3
+  curHp: 0
 --- !u!50 &132256098
 Rigidbody2D:
   serializedVersion: 4
@@ -1134,7 +1136,8 @@ MonoBehaviour:
   boolEnemySpawn: 1
   vecSpawnPos: {x: 0, y: 0, z: 0}
   trsSpawnPos: {fileID: 1414432959}
-  LayerEnemy: {fileID: 1105625133}
+  layerEnemy: {fileID: 1105625133}
+  layerDynamic: {fileID: 312153975}
 --- !u!4 &1614980408
 Transform:
   m_ObjectHideFlags: 0
