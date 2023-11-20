@@ -8,6 +8,9 @@ public class GameManager : MonoBehaviour
 
     private Camera maincam;
 
+    [Header("플레이어")]
+    [SerializeField] GameObject objPlayer;
+
     [Header("적기생성")]
     [SerializeField] private List<GameObject> listEnemys;
     [SerializeField, Range(0.1f, 1.0f)] private float timerSpawn;
@@ -81,6 +84,11 @@ public class GameManager : MonoBehaviour
     public Transform GetLayerDynamic()
     {
         return layerDynamic;
+    }
+
+    public GameObject GetPlayerGameObject()
+    {
+        return objPlayer;
     }
 
 }

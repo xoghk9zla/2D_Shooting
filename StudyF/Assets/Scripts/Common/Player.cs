@@ -29,12 +29,26 @@ public class Player : MonoBehaviour
     [Header("플레이어 데이터")]
     [SerializeField] private float maxHp = 3.0f;
     [SerializeField] private float curHp;
+    [SerializeField] PlayerHp playerHp;
+
+    [SerializeField] private GameObject objExplosion;
+    private SpriteRenderer sr;
+
+    private void OnValidate()   // 인스펙터에서 값이 변경 되면 이 함수가 호출
+    {
+        if (playerHp != null)
+        {
+            playerHp.SetPlayerHp(curHp, maxHp);
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.tag == GameTag.Enemy.ToString())
         {
             Hit(1.0f);
+            Enemy enemySc = collision.GetComponent<Enemy>();
+            enemySc.Hit(0.0f, true);
         }
     }
 
@@ -45,7 +59,10 @@ public class Player : MonoBehaviour
         maincam = Camera.main;
         animator = transform.GetComponent<Animator>();
 
+        sr = GetComponent<SpriteRenderer>();
+
         curHp = maxHp;
+
     }
 
     // Update is called once per frame
@@ -128,13 +145,25 @@ public class Player : MonoBehaviour
     public void Hit(float damage)
     {
         curHp -= damage;
+        playerHp.SetPlayerHp(curHp, maxHp);
+
         if(curHp <= 0)
         {
             Destroy(gameObject);
+            Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
+            Explosion objSc = objExplosion.GetComponent<Explosion>();
+            float sizeWidth = sr.sprite.rect.width;
+            objSc.SetAnimationSize(sizeWidth);
         }
         else
         {
 
         }
+    }
+
+    public void SetPlayerHp(PlayerHp value)
+    {
+        playerHp = value;
+        playerHp.SetPlayerHp(curHp, maxHp);
     }
 }

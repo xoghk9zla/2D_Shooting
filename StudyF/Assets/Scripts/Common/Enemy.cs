@@ -17,6 +17,11 @@ public class Enemy : MonoBehaviour
     private Transform layerDynamic;
     private GameManager gameManager;
 
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
+
     private void Awake()
     {
         curHp = maxHp;
@@ -43,13 +48,20 @@ public class Enemy : MonoBehaviour
         transform.position += -transform.up * Time.deltaTime * speed;
     }
 
-    public void Hit(float damage)
+    public void Hit(float damage, bool bodyslam = false)
     {
         curHp -= damage;
-        if (curHp <= 0)
+
+        if (curHp <= 0 || bodyslam == true)
         {
             Destroy(gameObject);
             Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
+            Explosion objSc = objExplosion.GetComponent<Explosion>();
+            float sizeWidth = sr.sprite.rect.width;
+            objSc.SetAnimationSize(sizeWidth);
+
+            // 만약 바디 슬램으로 들어온 코드라면 아이템을 주지않음
+
         }
         else
         {
