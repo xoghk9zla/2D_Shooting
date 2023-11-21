@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
 
     private Transform layerDynamic;
     private GameManager gameManager;
+    private bool haveItem = false;
 
     private void OnBecameInvisible()
     {
@@ -36,6 +37,11 @@ public class Enemy : MonoBehaviour
         //layerDynamic = GameObject.Find("LayerDynamic").transform;
         gameManager = GameManager.Instance;
         layerDynamic = gameManager.GetLayerDynamic();
+
+        if (haveItem == true)
+        {
+            sr.color = new Color(0.0f, 0.7f, 1.0f);
+        }
     }
 
     // Update is called once per frame
@@ -55,12 +61,16 @@ public class Enemy : MonoBehaviour
         if (curHp <= 0 || bodyslam == true)
         {
             Destroy(gameObject);
-            Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
-            Explosion objSc = objExplosion.GetComponent<Explosion>();
+            GameObject obj = Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
+            Explosion objSc = obj.GetComponent<Explosion>();
             float sizeWidth = sr.sprite.rect.width;
             objSc.SetAnimationSize(sizeWidth);
 
             // 만약 바디 슬램으로 들어온 코드라면 아이템을 주지않음
+            if(haveItem == true && bodyslam ==false)
+            {
+                gameManager.CreateItem(transform.position);
+            }
 
         }
         else
@@ -73,5 +83,12 @@ public class Enemy : MonoBehaviour
     private void SetSpriteDefault()
     {
         sr.sprite = sprDefault;
+    }
+
+    public void SetHaveItem()
+    {
+        haveItem = true;
+
+        
     }
 }

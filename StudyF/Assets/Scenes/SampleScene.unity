@@ -1671,6 +1671,10 @@ MonoBehaviour:
   trsSpawnPos: {fileID: 1414432959}
   layerEnemy: {fileID: 1105625133}
   layerDynamic: {fileID: 312153975}
+  dropRate: 100
+  listItem:
+  - {fileID: 6636833305173603109, guid: a8249d2feebb40142ac16104707c5999, type: 3}
+  - {fileID: 3802600128672249729, guid: c288f0141a956c84cb3379919aa0259e, type: 3}
 --- !u!4 &1614980408
 Transform:
   m_ObjectHideFlags: 0

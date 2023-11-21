@@ -358,6 +358,7 @@
 "Assets/Scripts/Common/Enemy.cs"
 "Assets/Scripts/Common/Explosion.cs"
 "Assets/Scripts/Common/Form.cs"
+"Assets/Scripts/Common/Item.cs"
 "Assets/Scripts/Common/Player.cs"
 "Assets/Scripts/Common/PlayerHp.cs"
 "Assets/Scripts/Manager/GameManager.cs"

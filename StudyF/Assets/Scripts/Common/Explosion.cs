@@ -7,7 +7,7 @@ public class Explosion : MonoBehaviour
     public void SetAnimationSize(float size)
     {
         Vector3 scale = transform.localScale;
-        scale *= size / 24.0f;
+        scale *= size / 12.0f;
         transform.localScale = scale;
     }
 

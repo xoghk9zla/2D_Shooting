@@ -6,4 +6,5 @@ public enum GameTag
 {
     Player,
     Enemy,
+    Item,
 }

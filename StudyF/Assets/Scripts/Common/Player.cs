@@ -44,24 +44,49 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == GameTag.Enemy.ToString())
+        if (collision.tag == GameTag.Enemy.ToString())
         {
             Hit(1.0f);
             Enemy enemySc = collision.GetComponent<Enemy>();
             enemySc.Hit(0.0f, true);
         }
+        else if (collision.tag == GameTag.Item.ToString())
+        {
+            // 어떤 아이템을 먹었는지 체크 후 아이템 타입에 맞는 기능을 실행\
+            Item itemSc = collision.GetComponent<Item>();
+            Item.ItemType itemType = itemSc.GetItemType();
+
+            if (itemType == Item.ItemType.PowerUp)
+            {
+
+            }
+            else if(itemType == Item.ItemType.HpRecovery)
+            {
+                curHp++;
+                if(curHp > maxHp)
+                {
+                    curHp = maxHp;
+                }
+                Destroy(gameObject);
+            }            
+        }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        //maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
         maincam = Camera.main;
         animator = transform.GetComponent<Animator>();
 
         sr = GetComponent<SpriteRenderer>();
 
         curHp = maxHp;
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        //maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
+        
 
     }
 
@@ -150,8 +175,8 @@ public class Player : MonoBehaviour
         if(curHp <= 0)
         {
             Destroy(gameObject);
-            Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
-            Explosion objSc = objExplosion.GetComponent<Explosion>();
+            GameObject obj = Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
+            Explosion objSc = obj.GetComponent<Explosion>();
             float sizeWidth = sr.sprite.rect.width;
             objSc.SetAnimationSize(sizeWidth);
         }

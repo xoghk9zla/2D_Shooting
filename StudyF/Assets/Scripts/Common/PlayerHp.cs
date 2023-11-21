@@ -29,7 +29,10 @@ public class PlayerHp : MonoBehaviour
 
     private void CheckPlayerPos()
     {
-        transform.position = trsPlayer.position - new Vector3(0.0f, 0.65f, 0.0f);
+        if(trsPlayer != null)
+        {
+            transform.position = trsPlayer.position - new Vector3(0.0f, 0.65f, 0.0f);
+        }
     }
 
     private void CheckPlayerHP()
