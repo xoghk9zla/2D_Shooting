@@ -25,11 +25,15 @@ public class Player : MonoBehaviour
     [SerializeField, Range(0.0f, 3.0f)] private float timerShoot = 0.5f;
     private float timer = 0.0f;
     [SerializeField] private float bulletDamage = 0.0f;
+    private Transform trsShootPos;
 
     [Header("플레이어 데이터")]
     [SerializeField] private float maxHp = 3.0f;
     [SerializeField] private float curHp;
     [SerializeField] PlayerHp playerHp;
+    [SerializeField, Range(1, 5)] private int level = 1;
+    [SerializeField] private int levelMin = 1;
+    [SerializeField] private int levelMax = 5;
 
     [SerializeField] private GameObject objExplosion;
     private SpriteRenderer sr;
@@ -58,7 +62,11 @@ public class Player : MonoBehaviour
 
             if (itemType == Item.ItemType.PowerUp)
             {
-
+                level++;
+                if (level > levelMax)
+                {
+                    level = levelMax;
+                }
             }
             else if(itemType == Item.ItemType.HpRecovery)
             {
@@ -67,26 +75,26 @@ public class Player : MonoBehaviour
                 {
                     curHp = maxHp;
                 }
-                Destroy(gameObject);
+                playerHp.SetPlayerHp(curHp, maxHp);
             }            
+            Destroy(collision.gameObject);
         }
     }
 
     private void Awake()
     {
-        maincam = Camera.main;
-        animator = transform.GetComponent<Animator>();
-
         sr = GetComponent<SpriteRenderer>();
-
         curHp = maxHp;
+        trsShootPos = transform.Find("ShootPos");
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
         //maincam = GameObject.Find("Main Camera").GetComponent<Camera>();
-        
+        maincam = Camera.main;
+        animator = transform.GetComponent<Animator>();
 
     }
 
@@ -162,9 +170,57 @@ public class Player : MonoBehaviour
 
     private void ShootBullet()
     {
-        GameObject obj = Instantiate(objBullet, transform.position, Quaternion.identity, layerDynamic);
+        switch (level)
+        {
+            case 1:
+                {
+                    CreateBullet(trsShootPos.position, Vector3.zero);
+                }
+                break;
+            case 2:
+                {
+                    CreateBullet(trsShootPos.position + new Vector3(-0.25f, 0.0f), Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(0.25f, 0.0f), Vector3.zero);
+                }
+                break;
+            case 3:
+                {
+                    CreateBullet(trsShootPos.position, Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(-0.25f, 0.0f), Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(0.25f, 0.0f), Vector3.zero);
+                }
+                break;
+            case 4:
+                {
+
+                    CreateBullet(trsShootPos.position + new Vector3(-0.25f, 0.0f), Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(0.25f, 0.0f), Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(-0.25f, 0.0f), new Vector3(0.0f, 0.0f, 15.0f));
+                    CreateBullet(trsShootPos.position + new Vector3(0.25f, 0.0f), new Vector3(0.0f, 0.0f, -15.0f));
+                }
+                break;
+            case 5:
+                {
+                    CreateBullet(trsShootPos.position, Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(-0.25f, 0.0f), Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(0.25f, 0.0f), Vector3.zero);
+                    CreateBullet(trsShootPos.position + new Vector3(-0.25f, 0.0f), new Vector3(0.0f, 0.0f, 15.0f));
+                    CreateBullet(trsShootPos.position + new Vector3(0.25f, 0.0f), new Vector3(0.0f, 0.0f, -15.0f));
+                }
+                break;
+            default:
+                Debug.LogError("레벨이 적용 할 수 있는 값을 초과했습니다. 확인해주세요.");
+                break;
+        }
+
+    }
+
+    private void CreateBullet(Vector3 pos, Vector3 rot)
+    {
+        GameObject obj = Instantiate(objBullet, pos, Quaternion.Euler(rot), layerDynamic);
         Bullet objSc = obj.GetComponent<Bullet>();
         objSc.SetDamege(true, bulletDamage);
+
     }
 
     public void Hit(float damage)
@@ -182,7 +238,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-
+            level--;
+            if(level < levelMin)
+            {
+                level = levelMin;
+            }
         }
     }
 

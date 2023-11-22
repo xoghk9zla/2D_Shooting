@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     private Transform layerDynamic;
     private GameManager gameManager;
     private bool haveItem = false;
+    private bool isDeath = false;
 
     private void OnBecameInvisible()
     {
@@ -60,6 +61,7 @@ public class Enemy : MonoBehaviour
 
         if (curHp <= 0 || bodyslam == true)
         {
+            
             Destroy(gameObject);
             GameObject obj = Instantiate(objExplosion, transform.position, Quaternion.identity, layerDynamic);
             Explosion objSc = obj.GetComponent<Explosion>();
@@ -67,11 +69,11 @@ public class Enemy : MonoBehaviour
             objSc.SetAnimationSize(sizeWidth);
 
             // 만약 바디 슬램으로 들어온 코드라면 아이템을 주지않음
-            if(haveItem == true && bodyslam ==false)
+            if(isDeath = true && haveItem == true && bodyslam ==false)
             {
                 gameManager.CreateItem(transform.position);
             }
-
+            isDeath = true;
         }
         else
         {
