@@ -54,8 +54,7 @@ public class Item : MonoBehaviour
         {
             moveDir = Vector3.Reflect(moveDir, Vector3.right);
         }
-
-        if(curPos.y < 0.1f)
+        else if(curPos.y < 0.1f)
         {
             moveDir = Vector3.Reflect(moveDir, Vector3.down);
         }

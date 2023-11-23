@@ -19,6 +19,13 @@ public class Enemy : MonoBehaviour
     private bool haveItem = false;
     private bool isDeath = false;
 
+    [SerializeField] bool isBoss = false;
+    [Header("보스용 패턴")]
+    [SerializeField] private float startPosY;   //시작위치
+    private bool isStartMoving;                 // 첫 시작시 이동 연출
+    private float ratioY = 0.0f;                // 이동 기능 연출 비율
+    private bool isSwayRight = false;           //보스가 좌로 가야하는지 우로 가야하는지
+
     private void OnBecameInvisible()
     {
         Destroy(gameObject);
@@ -30,6 +37,7 @@ public class Enemy : MonoBehaviour
 
         sr = GetComponent<SpriteRenderer>();
         sprDefault = sr.sprite;
+        startPosY = transform.position.y;
     }
 
     // Start is called before the first frame update
@@ -52,14 +60,46 @@ public class Enemy : MonoBehaviour
     }
     private void Moving()
     {
-        transform.position += -transform.up * Time.deltaTime * speed;
+        if (isBoss == false)
+        {
+            transform.position += -transform.up * Time.deltaTime * speed;
+        }
+        else
+        {
+            if(isStartMoving == false)
+            {
+                BossStartMoving();
+            }
+            else
+            {
+                BossSwayMoving();
+            }
+        }
+    }
+    
+    private void BossStartMoving()
+    {
+        ratioY += Time.deltaTime * 0.3f;
+        if (ratioY >= 1.0f)
+        {
+            isStartMoving = true;
+        }
+
+        Vector3 vecDestination = transform.localPosition;
+        vecDestination.y = Mathf.SmoothStep(startPosY, 2.5f, ratioY);
+        transform.localPosition = vecDestination;
+    }
+
+    private void BossSwayMoving()
+    {
+
     }
 
     public void Hit(float damage, bool bodyslam = false)
     {
         curHp -= damage;
 
-        if (curHp <= 0 || bodyslam == true)
+        if (curHp <= 0 || (bodyslam == true && isBoss == false))
         {
             
             Destroy(gameObject);

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -25,6 +27,18 @@ public class GameManager : MonoBehaviour
     [SerializeField, Range(0.0f, 100.0f)] float dropRate = 0.0f;
     [SerializeField] private List<GameObject> listItem;
 
+    [Header("게이지")]
+    [SerializeField] Slider slider;
+    [SerializeField] TMP_Text sliderText;
+    [SerializeField] Image sliderFillImage;
+
+    [SerializeField] float bossSpawnTime = 60.0f;
+    [SerializeField] private float curtime = 0.0f;
+    private bool bossSpawn = false;
+    [SerializeField] GameObject objBoss;
+    [SerializeField] Color sliderTimerColor;
+    [SerializeField] Color sliderBossHpColor;
+
     private void Awake()
     {
         if(Instance == null)
@@ -41,12 +55,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         maincam = Camera.main;
+        SetNewGame();
     }
 
     // Update is called once per frame
     void Update()
     {
         CheckSpawn();
+        CheckBossTimer();
+
+        CheckSliderColor();
     }
 
     private void CheckSpawn()
@@ -63,6 +81,67 @@ public class GameManager : MonoBehaviour
             EnemySpawn();
             timer = 0.0f;
         }
+    }
+
+    private void CheckBossTimer()
+    {
+            
+        if (bossSpawn == true)
+        {
+            return;
+        }
+
+       
+        curtime += Time.deltaTime;
+
+        if(curtime >= bossSpawnTime)
+        {
+            bossSpawn = true;
+            EnemyBossSpawn();
+        }
+
+        // todo 수정
+        SetSliderText();
+        SetSlider();
+    }
+
+    private void CheckSliderColor()
+    {
+        if(bossSpawn == false && sliderFillImage.color != sliderTimerColor)
+        {
+            sliderFillImage.color = sliderTimerColor;
+        }
+        else if(bossSpawn == true && sliderFillImage.color != sliderBossHpColor)
+        {
+            sliderFillImage.color = sliderBossHpColor;
+        }
+    }
+
+    private void SetSliderText()
+    {
+        string timerValue = $"{(int)curtime} / {(int)bossSpawnTime}";
+        sliderText.text = timerValue;
+    }
+
+    private void SetSlider()
+    {
+        slider.value = curtime;
+    }
+
+    private void SetSliderDefault()
+    {
+        slider.maxValue = bossSpawnTime;
+        slider.minValue = 0.0f;
+    }
+
+    // 새 게임, 다음 게임
+    private void SetNewGame()
+    {
+        curtime = 0.0f;
+
+        SetSliderDefault();
+        SetSliderText();
+        SetSlider();
     }
 
     private void EnemySpawn()
@@ -82,6 +161,12 @@ public class GameManager : MonoBehaviour
         {
             objSc.SetHaveItem();
         }
+    }
+
+    private void EnemyBossSpawn()
+    {
+        GameObject obj = Instantiate(objBoss, trsSpawnPos.position, Quaternion.identity, layerEnemy);
+        Enemy objSc = obj.GetComponent<Enemy>();
     }
 
     private (float _min, float _max) GetLimitGameScene()
