@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     private void CheckSpawn()
     {
-        if (boolEnemySpawn == false)
+        if (boolEnemySpawn == false || bossSpawn == true)
         {
             return;
         }
@@ -89,20 +89,37 @@ public class GameManager : MonoBehaviour
         if (bossSpawn == true)
         {
             return;
-        }
+        }       
 
-       
         curtime += Time.deltaTime;
 
         if(curtime >= bossSpawnTime)
         {
             bossSpawn = true;
             EnemyBossSpawn();
+            DestroyAllEnemy();
         }
 
         // todo ¼öÁ¤
         SetSliderText();
         SetSlider();
+    }
+
+    private void DestroyAllEnemy()
+    {
+        int count = layerEnemy.childCount;
+
+        for(int i = count - 1; i > -1; i--)
+        {
+            Transform objEnemy = layerEnemy.GetChild(i);
+            Enemy objSc = objEnemy.GetComponent<Enemy>();
+
+            if(objSc.IsBoos == false)
+            {
+                Destroy(objEnemy.gameObject);
+            }
+        }
+
     }
 
     private void CheckSliderColor()

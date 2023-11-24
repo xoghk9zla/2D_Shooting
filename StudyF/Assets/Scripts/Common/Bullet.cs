@@ -12,12 +12,18 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == GameTag.Enemy.ToString())
+        if (playerBullet == true && collision.gameObject.tag == GameTag.Enemy.ToString())
         {
             Enemy enemySc = collision.GetComponent<Enemy>();
             enemySc.Hit(damage);
             Destroy(gameObject);
         }            
+        else if(playerBullet == false && collision.gameObject.tag == GameTag.Player.ToString())
+        {
+            Player playerSc = collision.GetComponent<Player>();
+            playerSc.Hit(damage);
+            Destroy(gameObject);
+        }
     }
 
     private void OnBecameInvisible()
@@ -37,9 +43,14 @@ public class Bullet : MonoBehaviour
         transform.position += transform.up * Time.deltaTime * speed;
     }
 
-    public void SetDamege(bool isPlayer, float damage)
+    public void SetDamege(bool _isPlayer, float _damage, float _speed = -1)
     {
-        playerBullet = isPlayer;
-        this.damage = damage;
+        playerBullet = _isPlayer;
+        this.damage = _damage;
+
+        if (speed != -1)
+        {
+            speed = _speed;
+        }
     }
 }

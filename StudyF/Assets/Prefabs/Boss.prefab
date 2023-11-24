@@ -100,10 +100,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 100
-  speed: 0
+  speed: 4
   sprHit: {fileID: -7945901444079236628, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   objExplosion: {fileID: 8177806644972950193, guid: a449abce2d3d3d843bb365552f301b2a, type: 3}
   isBoss: 1
+  startPosY: 0
+  pattern1Count: 8
+  pattern1Reload: 1
+  pattern1Bullet: {fileID: 5227674788599708380, guid: a92a86a252ffda649862b8aa4d376f2c, type: 3}
+  pattern2Count: 5
+  pattern2Reload: 1.5
+  pattern2Bullet: {fileID: 205126123260230597, guid: a051cb3627cd3b04aa64455d49ad6433, type: 3}
+  pattern3Count: 50
+  pattern3Reload: 0.2
+  pattern3Bullet: {fileID: 3369816339314417229, guid: 6594fde030b640444a4c6f89249b5aab, type: 3}
 --- !u!50 &-7465176458755478617
 Rigidbody2D:
   serializedVersion: 4

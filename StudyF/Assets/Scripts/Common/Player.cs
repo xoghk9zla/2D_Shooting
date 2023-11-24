@@ -219,7 +219,7 @@ public class Player : MonoBehaviour
     {
         GameObject obj = Instantiate(objBullet, pos, Quaternion.Euler(rot), layerDynamic);
         Bullet objSc = obj.GetComponent<Bullet>();
-        objSc.SetDamege(true, bulletDamage);
+        objSc.SetDamege(true, bulletDamage, 3.0f);
 
     }
 
