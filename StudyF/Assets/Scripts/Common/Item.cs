@@ -35,8 +35,8 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += moveDir * moveSpeed * Time.deltaTime;
         CheckPos();
+        transform.position += moveDir * moveSpeed * Time.deltaTime;
     }
 
     /// <summary>

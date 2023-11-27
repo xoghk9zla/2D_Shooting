@@ -103,6 +103,18 @@ MonoBehaviour:
   speed: 2
   sprHit: {fileID: 3714015224569861163, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   objExplosion: {fileID: 8177806644972950193, guid: a449abce2d3d3d843bb365552f301b2a, type: 3}
+  isBoss: 0
+  startPosY: 0
+  pattern1Count: 8
+  pattern1Reload: 1
+  pattern1Bullet: {fileID: 0}
+  pattern2Count: 8
+  pattern2Reload: 1
+  pattern2Bullet: {fileID: 0}
+  pattern3Count: 8
+  pattern3Reload: 1
+  pattern3Bullet: {fileID: 0}
+  enemyType: 90
 --- !u!50 &1624805737354393919
 Rigidbody2D:
   serializedVersion: 4

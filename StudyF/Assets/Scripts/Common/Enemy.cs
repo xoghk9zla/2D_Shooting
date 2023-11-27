@@ -48,6 +48,12 @@ public class Enemy : MonoBehaviour
     private float shootTimer = 0.0f;
     private bool patternChange = false;
 
+    public enum enumEnemyType
+    {
+        typeA = 10, typeB = 30, typeC = 90, Boss = 1000,
+    }
+
+    public enumEnemyType enemyType;
 
     public bool IsBoos
     {
@@ -84,7 +90,12 @@ public class Enemy : MonoBehaviour
             sr.color = new Color(0.0f, 0.7f, 1.0f);
         }
 
-        mainCam = Camera.main;
+        mainCam = Camera.main;        
+
+        if(IsBoos == true)
+        {
+            gameManager.SetBossHP(curHp, maxHp);
+        }
     }
 
     // Update is called once per frame
@@ -220,13 +231,14 @@ public class Enemy : MonoBehaviour
         CreateBullet(pattern2Bullet, transform.position, new Vector3(0.0f, 0.0f, 180.0f + 60.0f), 4.0f);
         CreateBullet(pattern2Bullet, transform.position, new Vector3(0.0f, 0.0f, 180.0f - 60.0f), 4.0f);
 
-
         patternShootCount++;
     }
 
     private void shootGatling()
     {
-        Vector3 playerPos = gameManager.GetPlayerGameObject().transform.position;
+        GameObject objPlayer = gameManager.GetPlayerGameObject();
+
+        Vector3 playerPos = objPlayer == null ? Vector3.zero : objPlayer.transform.position ;
         float angle = Quaternion.FromToRotation(Vector3.up, playerPos - transform.position).eulerAngles.z;
 
         CreateBullet(pattern3Bullet, transform.position, new Vector3(0.0f, 0.0f, angle), 6.0f);
@@ -276,7 +288,19 @@ public class Enemy : MonoBehaviour
 
     public void Hit(float damage, bool bodyslam = false)
     {
-        curHp -= damage;
+        if (IsBoos == false)
+        {
+            curHp -= damage;
+        }
+        else if(isStartMoving == true)
+        {
+            curHp -= damage;
+        }
+
+        if (IsBoos == true && curHp >= 0)
+        {
+            gameManager.SetBossHP(curHp, maxHp);
+        }
 
         if (curHp <= 0 || (bodyslam == true && isBoss == false))
         {
@@ -288,11 +312,19 @@ public class Enemy : MonoBehaviour
             objSc.SetAnimationSize(sizeWidth);
 
             // 만약 바디 슬램으로 들어온 코드라면 아이템을 주지않음
-            if(isDeath = true && haveItem == true && bodyslam ==false)
+            if (isDeath = true && haveItem == true && bodyslam ==false)
             {
                 gameManager.CreateItem(transform.position);
             }
+
             isDeath = true;
+
+            gameManager.SetScore((int)enemyType);
+
+            if (IsBoos == true)
+            {
+                gameManager.GameCoutinue();
+            }
         }
         else
         {
@@ -309,7 +341,5 @@ public class Enemy : MonoBehaviour
     public void SetHaveItem()
     {
         haveItem = true;
-
-        
     }
 }

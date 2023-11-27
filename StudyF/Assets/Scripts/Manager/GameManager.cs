@@ -39,6 +39,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] Color sliderTimerColor;
     [SerializeField] Color sliderBossHpColor;
 
+    [SerializeField] TMP_Text scoreText;
+    private int curScore = 0;
+    private List<int> listIntScore = new List<int>();
+    private string scoreKey = "scoreKey";
+
     private void Awake()
     {
         if(Instance == null)
@@ -56,6 +61,11 @@ public class GameManager : MonoBehaviour
     {
         maincam = Camera.main;
         SetNewGame();
+
+        PlayerPrefs.SetFloat(scoreKey, 0.111f);
+        float value = PlayerPrefs.GetFloat(scoreKey);
+
+
     }
 
     // Update is called once per frame
@@ -116,7 +126,15 @@ public class GameManager : MonoBehaviour
 
             if(objSc.IsBoos == false)
             {
-                Destroy(objEnemy.gameObject);
+                //Destroy(objEnemy.gameObject);
+                if(objEnemy.position.x > 0.0f)
+                {
+                    objEnemy.transform.position += new Vector3(1.0f, 0.0f, 0.0f);
+                }
+                else if(objEnemy.position.x < 0.0f)
+                {
+                    objEnemy.transform.position += new Vector3(-1.0f, 0.0f, 0.0f);
+                }
             }
         }
 
@@ -209,4 +227,41 @@ public class GameManager : MonoBehaviour
         int rand = Random.Range(0, listItem.Count);
         Instantiate(listItem[rand], createPos, Quaternion.identity, layerDynamic);
     }
+
+
+    /// <summary>
+    /// 보스의 현재 체력 및 최대 체력을 게이지에 출력합니다
+    /// </summary>
+    /// <param name="_curHp">현재체력</param>
+    /// <param name="_maxHp">최대체력</param>
+    public void SetBossHP(float _curHp, float _maxHp)
+    {
+        if (slider.maxValue != _maxHp)
+        {
+            slider.maxValue = _maxHp;
+        }
+
+        slider.value = _curHp;
+        sliderText.text = $"{(int)_curHp} / {(int)_maxHp}";
+    }
+
+    public void GameCoutinue()
+    {
+        bossSpawn = false;
+        bossSpawnTime += 10.0f;
+        SetNewGame();
+    }
+
+    public void SetScore(int _score)
+    {
+        curScore += _score;
+        scoreText.text = curScore.ToString("D8");
+    }
+
+    public void GameOver()
+    {
+
+        SetNewGame();
+    }
 }
+

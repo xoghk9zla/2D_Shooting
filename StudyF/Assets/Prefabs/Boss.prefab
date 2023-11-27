@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e712d1b7f6b93a34c8ec9a3d6d21cfb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
+  maxHp: 10
   speed: 4
   sprHit: {fileID: -7945901444079236628, guid: 138040323294fd440a3a823e5d70ad01, type: 3}
   objExplosion: {fileID: 8177806644972950193, guid: a449abce2d3d3d843bb365552f301b2a, type: 3}
@@ -114,6 +114,7 @@ MonoBehaviour:
   pattern3Count: 50
   pattern3Reload: 0.2
   pattern3Bullet: {fileID: 3369816339314417229, guid: 6594fde030b640444a4c6f89249b5aab, type: 3}
+  enemyType: 1000
 --- !u!50 &-7465176458755478617
 Rigidbody2D:
   serializedVersion: 4

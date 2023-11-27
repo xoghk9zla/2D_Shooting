@@ -235,6 +235,8 @@ public class Player : MonoBehaviour
             Explosion objSc = obj.GetComponent<Explosion>();
             float sizeWidth = sr.sprite.rect.width;
             objSc.SetAnimationSize(sizeWidth);
+
+            GameManager.Instance.GameOver();
         }
         else
         {
