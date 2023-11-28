@@ -319,7 +319,7 @@ public class Enemy : MonoBehaviour
 
             isDeath = true;
 
-            gameManager.SetScore((int)enemyType);
+            gameManager.ShowScore((int)enemyType);
 
             if (IsBoos == true)
             {

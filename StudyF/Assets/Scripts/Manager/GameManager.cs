@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Newtonsoft.Json;
 
 public class GameManager : MonoBehaviour
 {
@@ -41,8 +42,14 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TMP_Text scoreText;
     private int curScore = 0;
-    private List<int> listIntScore = new List<int>();
+    private List<UserScore> listScore = new List<UserScore>();
     private string scoreKey = "scoreKey";
+
+    public class UserScore
+    {
+        public int score;
+        public string name;
+    }
 
     private void Awake()
     {
@@ -61,11 +68,41 @@ public class GameManager : MonoBehaviour
     {
         maincam = Camera.main;
         SetNewGame();
+        SetScore();
+    }
 
-        PlayerPrefs.SetFloat(scoreKey, 0.111f);
-        float value = PlayerPrefs.GetFloat(scoreKey);
+    private void SetScore()
+    {
+        if(PlayerPrefs.HasKey(scoreKey))
+        {
+            string savedValue = PlayerPrefs.GetString(scoreKey);
 
+            if(savedValue == string.Empty)
+            {
+                ClearAllScore();
+            }
+            else
+            {
+                listScore = JsonConvert.DeserializeObject<List<UserScore>>(savedValue);
+            }
+        }
+        else
+        {
+            ClearAllScore();
+        }
+    }
 
+    private void ClearAllScore()
+    {
+        listScore.Clear();
+
+        for(int i = 0; i < 10; ++i)
+        {
+            listScore.Add(new UserScore());
+        }
+        
+        string saveValue = JsonConvert.SerializeObject(listScore);
+        PlayerPrefs.SetString(scoreKey, saveValue);
     }
 
     // Update is called once per frame
@@ -252,7 +289,7 @@ public class GameManager : MonoBehaviour
         SetNewGame();
     }
 
-    public void SetScore(int _score)
+    public void ShowScore(int _score)
     {
         curScore += _score;
         scoreText.text = curScore.ToString("D8");
