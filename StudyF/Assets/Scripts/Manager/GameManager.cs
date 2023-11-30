@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Newtonsoft.Json;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -47,6 +48,11 @@ public class GameManager : MonoBehaviour
 
     [Header("게임오버 메뉴")]
     [SerializeField] GameObject objGameOverMenu;
+    [SerializeField] TMP_Text textRank;
+    [SerializeField] TMP_Text textTotalScore;
+    [SerializeField] TMP_InputField iFName;
+    [SerializeField] Button btnMainMenu;
+    [SerializeField] TMP_Text textBtnMainMenu;
 
     public class UserScore
     {
@@ -320,15 +326,58 @@ public class GameManager : MonoBehaviour
     {
         int rank = GetPlayerRank();
 
-        if(rank == -1)
-        {
+        textTotalScore.text = curScore.ToString("D8");
+        btnMainMenu.onClick.RemoveAllListeners();
 
+        if (rank == -1)
+        {
+            textRank.text = "순위권 외";
+            iFName.gameObject.SetActive(false);
+            textBtnMainMenu.text = "메인메뉴로";
+            btnMainMenu.onClick.AddListener(()=> 
+            { 
+                OnClickBtnMainMenu(); 
+            });
+            UnityAction action = () => { };
         }
         else 
-        { 
-            
+        {
+            textRank.text = $"{rank + 1} 등";
+            iFName.text = string.Empty;
+            iFName.gameObject.SetActive(true);
+            textBtnMainMenu.text = "저장 후 메인메뉴로";
+            btnMainMenu.onClick.AddListener(() =>
+            {
+                SetNewRank(rank, iFName.text);
+                OnClickBtnMainMenu();
+            });
         }
-        SetNewGame();
+
+        objGameOverMenu.SetActive(true);
+    }
+
+    /// <summary>
+    /// 새 등수를 등록시키고 제일 마지막 랭크 하나를 삭제
+    /// </summary>
+    /// <param name="_rank">삽입 될 랭크</param>
+    /// <param name="_name">유저 입력한 이름</param>
+    private void SetNewRank(int _rank, string _name)
+    {
+        listScore.Insert(_rank, new UserScore() { name = _name, score = curScore });
+        listScore.RemoveAt(listScore.Count - 1);
+
+        string saveValue = JsonConvert.SerializeObject(listScore);
+        PlayerPrefs.SetString(scoreKey, saveValue);
+    }
+
+    private void OnClickBtnMainMenu()
+    {
+        int count = listScore.Count;
+        for(int i = 0; i < count; ++i)
+        {
+            UserScore uScore = listScore[i];
+            Debug.Log($"{i + 1}등 - Name = {uScore.name}");
+        }
     }
 
     private int GetPlayerRank()
