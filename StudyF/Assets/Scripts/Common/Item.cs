@@ -35,8 +35,13 @@ public class Item : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        CheckPos();
         transform.position += moveDir * moveSpeed * Time.deltaTime;
+        CheckPos();
+    }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
     }
 
     /// <summary>

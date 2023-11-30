@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     private List<UserScore> listScore = new List<UserScore>();
     private string scoreKey = "scoreKey";
 
+    [Header("게임오버 메뉴")]
+    [SerializeField] GameObject objGameOverMenu;
+
     public class UserScore
     {
         public int score;
@@ -69,6 +72,7 @@ public class GameManager : MonoBehaviour
         maincam = Camera.main;
         SetNewGame();
         SetScore();
+        CheckGameOverMenu();
     }
 
     private void SetScore()
@@ -84,6 +88,11 @@ public class GameManager : MonoBehaviour
             else
             {
                 listScore = JsonConvert.DeserializeObject<List<UserScore>>(savedValue);
+
+                if(listScore.Count != 10)
+                {
+                    Debug.LogError($"리스트 스코어의 갯수가 이상합니다. 리스트 스코어의 갯수 = {listScore.Count}");
+                }
             }
         }
         else
@@ -92,6 +101,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void CheckGameOverMenu()
+    {
+        if (objGameOverMenu.activeSelf == true)
+        {
+            objGameOverMenu.SetActive(false);
+        }
+
+    }
+
+    /// <summary>
+    /// 데이터가 올바르지 않거나 없을때 새로운 데이터를 정확한 양식으로 만들고 저장합니다.
+    /// </summary>
     private void ClearAllScore()
     {
         listScore.Clear();
@@ -297,8 +318,33 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        int rank = GetPlayerRank();
 
+        if(rank == -1)
+        {
+
+        }
+        else 
+        { 
+            
+        }
         SetNewGame();
+    }
+
+    private int GetPlayerRank()
+    {
+        int count = listScore.Count;
+
+        for(int i = 0; i < count; ++i)
+        {
+            UserScore userscore = listScore[i];
+
+            if(userscore.score < curScore)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
 }
 
