@@ -107,6 +107,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 데이터가 올바르지 않거나 없을때 새로운 데이터를 정확한 양식으로 만들고 저장합니다.
+    /// </summary>
+    private void ClearAllScore()
+    {
+        listScore.Clear();
+
+        for (int i = 0; i < 10; ++i)
+        {
+            listScore.Add(new UserScore());
+        }
+
+        string saveValue = JsonConvert.SerializeObject(listScore);
+        PlayerPrefs.SetString(scoreKey, saveValue);
+    }
+
+
     private void CheckGameOverMenu()
     {
         if (objGameOverMenu.activeSelf == true)
@@ -116,22 +133,7 @@ public class GameManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 데이터가 올바르지 않거나 없을때 새로운 데이터를 정확한 양식으로 만들고 저장합니다.
-    /// </summary>
-    private void ClearAllScore()
-    {
-        listScore.Clear();
-
-        for(int i = 0; i < 10; ++i)
-        {
-            listScore.Add(new UserScore());
-        }
-        
-        string saveValue = JsonConvert.SerializeObject(listScore);
-        PlayerPrefs.SetString(scoreKey, saveValue);
-    }
-
+    
     // Update is called once per frame
     void Update()
     {
